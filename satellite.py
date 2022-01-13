@@ -1,7 +1,41 @@
-import requests, time
-from datetime import datetime, timedelta
+import requests
+from bs4 import BeautifulSoup as BS
 
 
+"""
+1 - Get all the times listed on website
+
+2 - Convert times into a valid url pointing to its corresponding image
+
+3 - Download image from url
+
+URL struc --> https://www.nea.gov.sg/docs/default-source/satelliteimage/bluemarbleasean_{year}{date}_{n_time}.jpg
+	e.g. --> https://www.nea.gov.sg/docs/default-source/satelliteimage/BlueMarbleASEAN_20220113_0820.jpg
+
+
+
+
+
+"""
+
+# Fetch the page and create BeautifulSoup object
+page = requests.get("https://www.nea.gov.sg/weather/satellite-images")
+print(page.content)
+
+soup = BS(page.content, "html.parser")
+print(soup)
+
+
+list_container = soup.find("div", class_="weather-widget")
+img_list = list_container.find("ul", class_="satellite-overlay-history-items")
+img_list_items = img_list.find_all("li")
+
+for item in img_list:
+	print(True)
+
+
+
+"""
 def img_dl():
 	
 	now = datetime.now()
@@ -36,10 +70,7 @@ def img_dl():
 
 		time.sleep(900)
 
-
-while True:
-	img_dl()
-	time.sleep(30)
+"""
 
 
 
